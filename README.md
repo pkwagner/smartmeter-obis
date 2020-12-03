@@ -30,7 +30,7 @@ Supported Transports (how to receive the data):
 * **StdInTransport**: Read data from stdin
 * **TCPTransport**: Read data from a tcp socket
 
-## Usage example (example for SerialRequestResposeTransport with D0Protocol)
+## Usage example (example for SerialRequestResponseTransport with D0Protocol)
 
 ```
 var SmartmeterObis = require('smartmeter-obis');
@@ -75,7 +75,7 @@ setTimeout(smTransport.stop, 60000);
 ## Usage informations
 The easiest way to use the library is to use the options Object with all data to set the Library configure and initialize by it's own.
 
-Therefor you use the **init(options, storeCallback)** method and provide an options Object and a callback function. The callback function is called with an error object and the parsed result as soon as a message is received completely and successfully. The callback function will get an Array of "ObisMeasurement" objects on suvccess while each entry contains all data for one datapoint. In error case you get an error object in the first parameter and can control if a new cycle should be started (return true) or if you want to stop processing (return false).
+Therefore you use the **init(options, storeCallback)** method and provide an options Object and a callback function. The callback function is called with an error object and the parsed result as soon as a message is received completely and successfully. The callback function will get an Array of "ObisMeasurement" objects on suvccess while each entry contains all data for one datapoint. In error case you get an error object in the first parameter and can control if a new cycle should be started (return true) or if you want to stop processing (return false).
 The **init(options, storeCallback)** returns the initialized Transport instance to use to control the dataflow.
 
 Everything else to do is to call the **process()** method from the returned Transport instance and the whole magic happends in the background. The called method can throw an Error as soon as invalid messages are received.
@@ -90,7 +90,7 @@ The process
 | --- | --- | --- |
 | **Basic configuration** |
 | [protocol] | <code>string</code> | required, value **SmlProtocol**, **D0Protocol** or **JsonEfrProtocol** |
-| [transport] | <code>string</code> | required, value **SerialResposeTransport**, **SerialRequestResposeTransport**, **HttpRequestTransport**, **LocalFileTransport**, **StdInTransport** or **TCPTransport** |
+| [transport] | <code>string</code> | required, value **SerialResponseTransport**, **SerialRequestResponseTransport**, **HttpRequestTransport**, **LocalFileTransport**, **StdInTransport** or **TCPTransport** |
 | [requestInterval] | <code>number</code> | optional, number of seconds to wait for next request or pause serial receiving, value 0 possible to restart directly after finishing one message, Default: is 300 (=5 Minutes) |
 | **Transport specific options** |
 | [transportSerialPort] | <code>string</code> | required for Serial protocols, Serial device name, e.g. "/dev/ttyUSB0" |
@@ -116,6 +116,7 @@ The process
 | [protocolSmlIgnoreInvalidCRC] | <code>boolean</code> | required for **SmlProtocol**, if false and CRC checksum is invalid an Error is thrown |
 | [anotherQueryDelay] | <code>number</code> | optional for **D0Protocol** with **SerialRequestResponseTransport** when multiple SignOnMessages are given. Value is in ms, default 1000 |
 | **OBIS options** |
+| [obisNameLanguage] | <code>string</code> | optional, `en` and `de` available
 | [obisFallbackMedium] | <code>number</code> | optional, if smartmeter do not return complete OBIS IDs (without medium info) this will be used as fallback for name resolving |
 | **Debugging options** |
 | [debug] | <code>number</code> | optional, values: 0 (no logging), 1 (basic logging), 2 (detailed logging), Default: 0 |
