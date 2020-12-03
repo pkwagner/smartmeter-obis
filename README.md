@@ -31,7 +31,7 @@ This library allows reading and parsing smartmeter protocols that follow the OBI
 * **TCPTransport**: Read data from a tcp socket.
 
 ## Usage Example
-```
+```javascript
 var SmartmeterObis = require('smartmeter-obis');
 
 var options = {
@@ -81,38 +81,38 @@ If you encounter any problem during runtime, it might be useful to set the debug
 | Param | Type | Description |
 | --- | --- | --- |
 | **Basic configuration** |
-| [protocol] | <code>string</code> | required, value **SmlProtocol**, **D0Protocol** or **JsonEfrProtocol** | required |
-| [transport] | <code>string</code> | required, value **SerialResponseTransport**, **SerialRequestResponseTransport**, **HttpRequestTransport**, **LocalFileTransport**, **StdInTransport** or **TCPTransport** |
-| [requestInterval] | <code>number</code> | optional, number of seconds to wait for next request or pause serial receiving, value 0 possible to restart directly after finishing one message, Default: is 300 (=5 Minutes) |
+| `protocol` | <code>string</code> | required, value **SmlProtocol**, **D0Protocol** or **JsonEfrProtocol** | required |
+| `transport` | <code>string</code> | required, value **SerialResponseTransport**, **SerialRequestResponseTransport**, **HttpRequestTransport**, **LocalFileTransport**, **StdInTransport** or **TCPTransport** |
+| `requestInterval` | <code>number</code> | optional, number of seconds to wait for next request or pause serial receiving, value 0 possible to restart directly after finishing one message, Default: is 300 (=5 Minutes) |
 | **Transport specific options** |
-| [transportSerialPort] | <code>string</code> | required for Serial protocols, Serial device name, e.g. "/dev/ttyUSB0" |
-| [transportSerialBaudrate] | <code>number</code> | optional, baudrate for initial serial connection, if not defined default values per Transport type are used (9600 for SerialResponseTransprt and 300 for SerialRequestResponseTransport) |
-| [transportSerialDataBits] | <code>number</code> | optional, Must be one of: 8, 7, 6, or 5. |
-| [transportSerialStopBits] | <code>number</code> | optional, Must be one of: 1 or 2. |
-| [transportSerialParity] | <code>string</code> | optional, Must be one of: 'none', 'even', 'mark', 'odd', 'space' |
-| [transportSerialMaxBufferSize] | <code>number</code> | optional, default value is 300000 (means after 300000 bytes without a matching message an Error is thrown ) |
-| [transportSerialMessageTimeout] | <code>number</code> | ms, optional, default value is 120000 (means after 120000ms without a matching message or new data an Error is thrown ) |
-| [transportHttpRequestUrl] | <code>string</code> | required for **HttpRequestTransport**, Request URL to query data from |
-| [transportHttpRequestTimeout] | <code>number</code> | optional for **HttpRequestTransport**, Timeout in ms, defaut 2000 |
-| [transportLocalFilePath] | <code>string</code> | required for **LocalFileTransport**, File patch to read data from |
-| [transportStdInMaxBufferSize] | <code>number</code> | optional, default value is 300000 (means after 300000 bytes without a matching message an Error is thrown ) |
-| [transportStdInMessageTimeout] | <code>number</code> | ms, optional, default value is 120000 (means after 120000ms without a matching message or new data an Error is thrown ) |
-| [transportTcpMaxBufferSize] | <code>number</code> | optional, default value is 300000 (means after 300000 bytes without a matching message an Error is thrown ) |
-| [transportTcpMessageTimeout] | <code>number</code> | ms, optional, default value is 120000 (means after 120000ms without a matching message or new data an Error is thrown ) |
+| `transportSerialPort` | <code>string</code> | required for Serial protocols, Serial device name, e.g. "/dev/ttyUSB0" |
+| `transportSerialBaudrate` | <code>number</code> | optional, baudrate for initial serial connection, if not defined default values per Transport type are used (9600 for SerialResponseTransprt and 300 for SerialRequestResponseTransport) |
+| `transportSerialDataBits` | <code>number</code> | optional, Must be one of: 8, 7, 6, or 5. |
+| `transportSerialStopBits` | <code>number</code> | optional, Must be one of: 1 or 2. |
+| `transportSerialParity` | <code>string</code> | optional, Must be one of: 'none', 'even', 'mark', 'odd', 'space' |
+| `transportSerialMaxBufferSize` | <code>number</code> | optional, default value is 300000 (means after 300000 bytes without a matching message an Error is thrown ) |
+| `transportSerialMessageTimeout` | <code>number</code> | ms, optional, default value is 120000 (means after 120000ms without a matching message or new data an Error is thrown ) |
+| `transportHttpRequestUrl` | <code>string</code> | required for **HttpRequestTransport**, Request URL to query data from |
+| `transportHttpRequestTimeout` | <code>number</code> | optional for **HttpRequestTransport**, Timeout in ms, defaut 2000 |
+| `transportLocalFilePath` | <code>string</code> | required for **LocalFileTransport**, File patch to read data from |
+| `transportStdInMaxBufferSize` | <code>number</code> | optional, default value is 300000 (means after 300000 bytes without a matching message an Error is thrown ) |
+| `transportStdInMessageTimeout` | <code>number</code> | ms, optional, default value is 120000 (means after 120000ms without a matching message or new data an Error is thrown ) |
+| `transportTcpMaxBufferSize` | <code>number</code> | optional, default value is 300000 (means after 300000 bytes without a matching message an Error is thrown ) |
+| `transportTcpMessageTimeout` | <code>number</code> | ms, optional, default value is 120000 (means after 120000ms without a matching message or new data an Error is thrown ) |
 | **Protocol specific options** |
-| [protocolD0WakeupCharacters] | <code>number</code> | optional for **D0Protocol**, number of wakeup NULL characters, default 0 |
-| [protocolD0DeviceAddress] | <code>string</code> | optional for **D0Protocol**, device address (max 32 characters) for SignIn-Message, default empty |
-| [protocolD0SignOnMessage] | <code>string</code> | optional for **D0Protocol**, command for SignIn-Message, default "?" to query mandatory fields, other values depending on device. You can provide multiple SignOn messages separated by a comma. The delay between them can be set by parameter anotherQueryDelay |
-| [protocolD0ModeOverwrite] | <code>string</code> | optional for **D0Protocol**, to ignore the mode send by the device set the correct D0 mode here. The mode send by the device in the identification message is ignored |
-| [protocolD0BaudrateChangeoverOverwrite] | <code>number</code> | optional for **D0Protocol**, when the D0 mode needs a baudrate changeover, but the device information from identification message is wrong, overwrite with this value |
-| [protocolSmlIgnoreInvalidCRC] | <code>boolean</code> | required for **SmlProtocol**, if false and CRC checksum is invalid an Error is thrown |
-| [anotherQueryDelay] | <code>number</code> | optional for **D0Protocol** with **SerialRequestResponseTransport** when multiple SignOnMessages are given. Value is in ms, default 1000 |
+| `protocolD0WakeupCharacters` | <code>number</code> | optional for **D0Protocol**, number of wakeup NULL characters, default 0 |
+| `protocolD0DeviceAddress` | <code>string</code> | optional for **D0Protocol**, device address (max 32 characters) for SignIn-Message, default empty |
+| `protocolD0SignOnMessage` | <code>string</code> | optional for **D0Protocol**, command for SignIn-Message, default "?" to query mandatory fields, other values depending on device. You can provide multiple SignOn messages separated by a comma. The delay between them can be set by parameter anotherQueryDelay |
+| `protocolD0ModeOverwrite` | <code>string</code> | optional for **D0Protocol**, to ignore the mode send by the device set the correct D0 mode here. The mode send by the device in the identification message is ignored |
+| `protocolD0BaudrateChangeoverOverwrite` | <code>number</code> | optional for **D0Protocol**, when the D0 mode needs a baudrate changeover, but the device information from identification message is wrong, overwrite with this value |
+| `protocolSmlIgnoreInvalidCRC` | <code>boolean</code> | required for **SmlProtocol**, if false and CRC checksum is invalid an Error is thrown |
+| `anotherQueryDelay` | <code>number</code> | optional for **D0Protocol** with **SerialRequestResponseTransport** when multiple SignOnMessages are given. Value is in ms, default 1000 |
 | **OBIS options** |
-| [obisNameLanguage] | <code>string</code> | optional, `en` and `de` available
-| [obisFallbackMedium] | <code>number</code> | optional, if smartmeter do not return complete OBIS IDs (without medium info) this will be used as fallback for name resolving |
+| `obisNameLanguage` | <code>string</code> | optional, `en` and `de` available
+| `obisFallbackMedium` | <code>number</code> | optional, if smartmeter do not return complete OBIS IDs (without medium info) this will be used as fallback for name resolving |
 | **Debugging options** |
-| [debug] | <code>number</code> | optional, values: 0 (no logging), 1 (basic logging), 2 (detailed logging), Default: 0 |
-| [logger] | <code>function</code> | optional, logging function that accepts one parameter to log a string. Default is "console.log" |
+| `debug` | <code>number</code> | optional, values: 0 (no logging), 1 (basic logging), 2 (detailed logging), Default: 0 |
+| `logger` | <code>function</code> | optional, logging function that accepts one parameter to log a string. Default is "console.log" |
 
 
 ## Tested Hardware
